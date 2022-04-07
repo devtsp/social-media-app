@@ -38,7 +38,7 @@ module.exports = {
 			}
 			const match = await bcrypt.compare(password, user.password);
 			if (!match) {
-				errors.general = 'User not found';
+				errors.general = 'Wrong credentials';
 				throw new UserInputError('Wrong credentials', { errors });
 			}
 			const token = generateToken(user);
@@ -57,7 +57,7 @@ module.exports = {
 			if (user) {
 				throw new UserInputError('Username is taken', {
 					errors: {
-						username: 'This username is taken',
+						username: 'Username is taken',
 					},
 				});
 			}
