@@ -37,12 +37,26 @@ module.exports = {
 					post.comments.splice(commentIndex, 1);
 					await post.save();
 					return post;
+				} else throw new AuthenticationError('Action not allowed');
+			} else throw new UserInputError('Post not found');
+		},
+		async likePost(parent, args, context) {
+			const { postId } = args;
+			const { username } = checkAuth(context);
+			const post = await Post.findById(postId);
+			if (post) {
+				if (post.likes.find(like => like.username === username)) {
+					// If post have a like already filter it
+					post.likes = post.likes.filter(like => like.username !== username);
 				} else {
-					throw new AuthenticationError('Action not allowed');
+					post.likes.push({
+						username,
+						cratedAt: new Date().toISOString(),
+					});
 				}
-			} else {
-				throw new UserInputError('Post not found');
-			}
+				await post.save();
+				return post;
+			} else throw new UserInputError('Post not found');
 		},
 	},
 };

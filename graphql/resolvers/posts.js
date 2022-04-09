@@ -58,4 +58,12 @@ module.exports = {
 			}
 		},
 	},
+	Subscription: {
+		newPost: {
+			subscribe(parent, args, context) {
+				const { pubsub } = context;
+				return pubsub.asyncIterator('NEW_POST');
+			},
+		},
+	},
 };
