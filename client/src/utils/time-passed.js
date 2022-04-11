@@ -6,5 +6,5 @@ export function timePassed(time) {
 	const msInMn = 1000 * 60;
 	const hrs = Math.floor(diff / msInHrs);
 	const mn = Math.floor((diff % (hrs * msInHrs)) / msInMn);
-	return hrs < 24 ? `${hrs} hours ago` : `${hrs / 24} days ago`;
+	return hrs < 24 ? `${hrs} hours ago` : `${Math.floor(hrs / 24)} days ago`;
 }
