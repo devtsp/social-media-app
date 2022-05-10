@@ -20,6 +20,15 @@ const PostCard = ({ post: { body, createdAt, id, username, likes } }) => {
 				<Card.Description>{body}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
+				<Button as='div' labelPosition='right'>
+					<Button color='red' basic>
+						<Icon name='heart' />
+						Like
+					</Button>
+					<Label as='a' basic color='red' pointing='left'>
+						{likes.length}
+					</Label>
+				</Button>
 				<p>Buttons</p>
 			</Card.Content>
 		</Card>
