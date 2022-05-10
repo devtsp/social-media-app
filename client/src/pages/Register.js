@@ -1,8 +1,9 @@
 import React from "react";
-import { Button, Form } from "semantic-ui-react";
+import { Button, Form, Message } from "semantic-ui-react";
 import { useMutation, gql } from "@apollo/client";
 
 const Register = () => {
+	const [errors, setErrors] = React.useState({})
 	const [values, setValues] = React.useState({
 		username: "",
 		email: "",
@@ -16,7 +17,12 @@ const Register = () => {
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
 		update(proxy, result) {
 			console.log(result)
-		}, variables: values
+		},
+		onError(err) {
+			console.log(err.graphQLErrors[0].extensions.errors);
+			setErrors(err.graphQLErrors[0].extensions.errors)
+		},
+		variables: values
 	})
 
 	const onSubmit = e => {
@@ -62,6 +68,12 @@ const Register = () => {
 					onChange={onChange}
 				/>
 				<Button type="submit" primary>Register</Button>
+				{Object.keys(errors).length > 0 && <Message
+					negative
+					header='There was some errors with your submission'
+					list={Object.values(errors)}
+				/>
+				}
 			</Form>
 		</div >
 	);
