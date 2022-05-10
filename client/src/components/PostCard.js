@@ -4,7 +4,9 @@ import { Link } from 'react-router-dom';
 
 import { timePassed } from '../utils/time-passed';
 
-const PostCard = ({ post: { body, createdAt, id, username, likes, comments } }) => {
+const PostCard = ({
+	post: { body, createdAt, id, username, likes, comments },
+}) => {
 	return (
 		<Card>
 			<Card.Content>
@@ -20,19 +22,19 @@ const PostCard = ({ post: { body, createdAt, id, username, likes, comments } }) 
 				<Card.Description>{body}</Card.Description>
 			</Card.Content>
 			<Card.Content extra>
-				<Button as='div' labelPosition='right'>
-					<Button color='red' basic>
-						<Icon name='heart' />
+				<Button as="div" labelPosition="right">
+					<Button color="red" basic>
+						<Icon name="heart" />
 					</Button>
-					<Label as='a' basic color='red' pointing='left'>
+					<Label as="a" basic color="red" pointing="left">
 						{likes.length}
 					</Label>
 				</Button>
-				<Button as='div' labelPosition='right'>
-					<Button color='blue' basic>
-						<Icon name='comments' />
+				<Button as="div" labelPosition="right">
+					<Button color="blue" basic>
+						<Icon name="comments" />
 					</Button>
-					<Label basic color='blue' pointing='left'>
+					<Label basic color="blue" pointing="left">
 						{comments.length}
 					</Label>
 				</Button>
