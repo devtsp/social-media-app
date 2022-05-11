@@ -3,9 +3,11 @@ import { Button, Form, Message } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
+import { AuthContext } from '../context/auth';
 import { useForm } from '../utils/hooks';
 
 const Login = () => {
+	const context = React.useContext(AuthContext);
 	const navigate = useNavigate();
 	const [errors, setErrors] = React.useState({});
 
@@ -16,6 +18,7 @@ const Login = () => {
 
 	const [loginUser, { loading }] = useMutation(LOGIN_USER, {
 		update(proxy, result) {
+			context.login(result.data.login);
 			navigate('/');
 		},
 		onError(err) {

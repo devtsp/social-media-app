@@ -3,9 +3,11 @@ import { Button, Form, Message } from 'semantic-ui-react';
 import { useMutation, gql } from '@apollo/client';
 import { useNavigate } from 'react-router-dom';
 
+import { AuthContext } from '../context/auth';
 import { useForm } from '../utils/hooks';
 
 const Register = () => {
+	const context = React.useContext(AuthContext);
 	const navigate = useNavigate();
 	const [errors, setErrors] = React.useState({});
 
@@ -18,6 +20,7 @@ const Register = () => {
 
 	const [addUser, { loading }] = useMutation(REGISTER_USER, {
 		update(proxy, result) {
+			context.login(result.data.register);
 			navigate('/');
 		},
 		onError(err) {
