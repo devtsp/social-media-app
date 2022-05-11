@@ -34,18 +34,24 @@ module.exports = {
 		async login(parent, args, context, info) {
 			const { username, password } = args;
 			const { errors, valid } = validateLoginInput(username, password);
+
 			if (!valid) throw new UserInputError('Invalid Input', { errors });
+
 			const user = await User.findOne({ username });
+
 			if (!user) {
 				errors.general = 'User not found';
 				throw new UserInputError('User not found', { errors });
 			}
 			const match = await bcrypt.compare(password, user.password);
+
 			if (!match) {
 				errors.general = 'Wrong password';
 				throw new UserInputError('Wrong credentials', { errors });
 			}
+
 			const token = generateToken(user);
+
 			return {
 				...user._doc,
 				id: user._id,
@@ -56,8 +62,10 @@ module.exports = {
 			const {
 				registerInput: { username, email, password, confirmPassword },
 			} = args;
+
 			// USER UNIQUENESS
 			const user = await User.findOne({ username });
+
 			if (user) {
 				throw new UserInputError('Username is taken', {
 					errors: {
@@ -65,6 +73,7 @@ module.exports = {
 					},
 				});
 			}
+
 			// DATA VALIDATION
 			const { valid, errors } = validateRegisterInput(
 				username,
@@ -72,9 +81,11 @@ module.exports = {
 				password,
 				confirmPassword
 			);
+
 			if (!valid) {
 				throw new UserInputError('Errors', { errors });
 			}
+
 			// PASS AND TOKEN
 			const encryptedPassword = await bcrypt.hash(password, 12);
 			const newUser = new User({
@@ -85,6 +96,7 @@ module.exports = {
 			});
 			const result = await newUser.save();
 			const token = generateToken(result);
+
 			return {
 				...result._doc,
 				id: result._id,
