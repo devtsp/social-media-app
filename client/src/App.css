@@ -1,8 +1,13 @@
 .page-title {
-  display: block !important;
-  text-align: center;
+	display: block !important;
+	text-align: center;
 }
 .form-container {
-  width: 400px;
-  margin: auto;
+	width: 400px;
+	margin: auto;
+}
+
+.ui.red.button:focus,
+.ui.red.buttons .button:focus {
+	background-color: #db2828;
 }
