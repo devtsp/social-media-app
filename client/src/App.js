@@ -20,10 +20,10 @@ function App() {
 					<MenuBar />
 					<Routes>
 						<Route path="/" element={<Home />} />
-						<Route path="/login" element={<AuthRoute element={<Login />} />} />
+						<Route path="/login" element={<AuthRoute element={Login} />} />
 						<Route
 							path="/register"
-							element={<AuthRoute element={<Register />} />}
+							element={<AuthRoute element={Register} />}
 						/>
 					</Routes>
 				</Container>
