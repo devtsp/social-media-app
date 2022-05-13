@@ -11,6 +11,7 @@ import MenuBar from './components/MenuBar.js';
 import Home from './pages/Home.js';
 import Login from './pages/Login.js';
 import Register from './pages/Register.js';
+import SinglePost from './pages/SinglePost';
 
 function App() {
 	return (
@@ -25,6 +26,7 @@ function App() {
 							path="/register"
 							element={<AuthRoute element={Register} />}
 						/>
+						<Route path="/posts/:postId" element={SinglePost} />
 					</Routes>
 				</Container>
 			</Router>
