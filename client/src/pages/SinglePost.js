@@ -63,7 +63,7 @@ const SinglePost = props => {
 			</Grid>
 		);
 	}
-	return <div>SinglePost</div>;
+	return postMarkup;
 };
 
 const FETCH_POST_QUERY = gql`
