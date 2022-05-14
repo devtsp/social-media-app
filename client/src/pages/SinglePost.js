@@ -1,40 +1,40 @@
 import React from 'react';
+import { useParams } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Card, Grid, Image, Button, Icon, Label } from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
 import { timePassed } from '../utils/time-passed';
 import LikeButton from '../components/LikeButton';
+import DeleteButton from '../components/DeleteButton';
 
-const SinglePost = props => {
-	const postId = props.match.params.postId;
-	console.log(postId);
+const SinglePost = () => {
+	const { postId } = useParams();
 	const { user } = React.useContext(AuthContext);
-	const {
-		data: { getPost },
-	} = useQuery(FETCH_POST_QUERY, {
+	const { loading, data } = useQuery(FETCH_POST_QUERY, {
 		variables: {
 			postId,
 		},
 	});
+
 	let postMarkup;
 
-	if (!getPost) {
+	if (loading) {
 		postMarkup = <p>Loading Post..</p>;
 	} else {
-		const { id, body, createdAt, username, comments, likes } = getPost;
+		const { id, body, createdAt, username, comments, likes } = data.getPost;
 
 		postMarkup = (
 			<Grid>
 				<Grid.Row>
-					<Grid.Column>
+					<Grid.Column width={2}>
 						<Image
 							src="https://react.semantic-ui.com/images/avatar/large/molly.png"
 							size="small"
 							float="right"
 						/>
 					</Grid.Column>
-					<Grid.Column>
+					<Grid.Column width={10}>
 						<Card fluid>
 							<Card.Content>
 								<Card.Header>{username}</Card.Header>
@@ -56,6 +56,9 @@ const SinglePost = props => {
 										{comments.length}
 									</Label>
 								</Button>
+								{user && user.username === username && (
+									<DeleteButton postId={id} />
+								)}
 							</Card.Content>
 						</Card>
 					</Grid.Column>
@@ -79,7 +82,7 @@ const FETCH_POST_QUERY = gql`
 			comments {
 				id
 				username
-				craetedAt
+				createdAt
 				body
 			}
 		}

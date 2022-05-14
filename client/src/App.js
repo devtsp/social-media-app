@@ -26,7 +26,7 @@ function App() {
 							path="/register"
 							element={<AuthRoute element={Register} />}
 						/>
-						{/* <Route path="/posts/:postId" element={SinglePost} /> */}
+						<Route path="/posts/:postId" element={<SinglePost />} />
 					</Routes>
 				</Container>
 			</Router>
