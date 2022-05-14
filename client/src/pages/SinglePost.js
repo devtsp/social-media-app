@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { gql, useQuery } from '@apollo/client';
 import { Card, Grid, Image, Button, Icon, Label } from 'semantic-ui-react';
 
@@ -9,6 +9,7 @@ import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
 
 const SinglePost = () => {
+	const navigate = useNavigate();
 	const { postId } = useParams();
 	const { user } = React.useContext(AuthContext);
 	const { loading, data } = useQuery(FETCH_POST_QUERY, {
@@ -16,6 +17,10 @@ const SinglePost = () => {
 			postId,
 		},
 	});
+
+	function deletePostCallback() {
+		navigate('/');
+	}
 
 	let postMarkup;
 
@@ -57,7 +62,7 @@ const SinglePost = () => {
 									</Label>
 								</Button>
 								{user && user.username === username && (
-									<DeleteButton postId={id} />
+									<DeleteButton postId={id} callback={deletePostCallback} />
 								)}
 							</Card.Content>
 						</Card>

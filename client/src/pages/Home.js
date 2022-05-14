@@ -11,8 +11,6 @@ const Home = () => {
 	const { user } = React.useContext(AuthContext);
 	const { loading, data } = useQuery(FETCH_POSTS_QUERY);
 
-	// if (data) console.log(data);
-
 	return (
 		<Grid columns={3}>
 			<Grid.Row className="page-title">
@@ -28,7 +26,7 @@ const Home = () => {
 					<h1>Loading Posts..</h1>
 				) : (
 					<Transition.Group>
-						{data.getPosts &&
+						{data?.getPosts &&
 							data.getPosts.map(post => (
 								<Grid.Column key={post.id} style={{ marginBottom: 20 }}>
 									<PostCard post={post} />
