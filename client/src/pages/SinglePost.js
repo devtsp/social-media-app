@@ -102,15 +102,15 @@ const SinglePost = () => {
 												onChange={e => setComment(e.target.value)}
 												ref={commentInputRef}
 											/>
+											<button
+												type="submit"
+												className="ui button teal"
+												disabled={comment.trim() === ''}
+												onClick={submitComment}
+											>
+												Submit
+											</button>
 										</div>
-										<button
-											type="submit"
-											className="ui button teal"
-											disabled={comment.trim() === ''}
-											onClick={submitComment}
-										>
-											Submit
-										</button>
 									</Form>
 								</Card.Content>
 							</Card>
