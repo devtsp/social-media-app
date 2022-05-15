@@ -6,6 +6,7 @@ import { timePassed } from '../utils/time-passed';
 import { AuthContext } from '../context/auth';
 import LikeButton from './LikeButton';
 import DeleteButton from './DeleteButton';
+import ButtonPopup from '../utils/ButtonPopup';
 
 const PostCard = ({
 	post: { body, createdAt, id, username, likes, comments },
@@ -28,14 +29,17 @@ const PostCard = ({
 			</Card.Content>
 			<Card.Content extra>
 				<LikeButton user={user} post={{ id, likes }} />
-				<Button labelPosition="right" as={Link} to={`/posts/${id}`}>
-					<Button color="blue" basic>
-						<Icon name="comments" />
+				<ButtonPopup content="Comment on post">
+					<Button labelPosition="right" as={Link} to={`/posts/${id}`}>
+						<Button color="blue" basic>
+							<Icon name="comments" />
+						</Button>
+						<Label basic color="blue" pointing="left">
+							{comments.length}
+						</Label>
 					</Button>
-					<Label basic color="blue" pointing="left">
-						{comments.length}
-					</Label>
-				</Button>
+				</ButtonPopup>
+
 				{user && user.username === username && (
 					<DeleteButton postId={id}></DeleteButton>
 				)}

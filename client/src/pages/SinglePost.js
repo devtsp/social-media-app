@@ -15,6 +15,7 @@ import { AuthContext } from '../context/auth';
 import { timePassed } from '../utils/time-passed';
 import LikeButton from '../components/LikeButton';
 import DeleteButton from '../components/DeleteButton';
+import ButtonPopup from '../utils/ButtonPopup';
 
 const SinglePost = () => {
 	const navigate = useNavigate();
@@ -70,12 +71,10 @@ const SinglePost = () => {
 							</Card.Content>
 							<hr />
 							<Card.Content extra>
-								<LikeButton user={user} post={{ id, likes }} />
-								<Button
-									as="div"
-									labelPosition="right"
-									onClick={() => console.log('asdas')}
-								>
+								<ButtonPopup content="Like post">
+									<LikeButton user={user} post={{ id, likes }} />
+								</ButtonPopup>
+								<Button as="div" labelPosition="right">
 									<Button basic color="blue">
 										<Icon name="comments"> </Icon>
 									</Button>

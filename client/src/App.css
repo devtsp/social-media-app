@@ -7,7 +7,7 @@
 	margin: auto;
 }
 
-.ui.red.button:focus,
-.ui.red.buttons .button:focus {
-	background-color: #db2828;
+.ui.teal.button:focus,
+.ui.teal.buttons .button:focus {
+	background-color: #00b5ad;
 }
