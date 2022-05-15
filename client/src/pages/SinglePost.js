@@ -21,6 +21,7 @@ const SinglePost = () => {
 	const { postId } = useParams();
 	const { user } = React.useContext(AuthContext);
 	const [comment, setComment] = React.useState('');
+	const commentInputRef = React.useRef(null);
 
 	const { loading, data } = useQuery(FETCH_POST_QUERY, {
 		variables: {
@@ -31,6 +32,7 @@ const SinglePost = () => {
 	const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
 		update(proxy, result) {
 			setComment('');
+			commentInputRef.current.blur();
 		},
 		variables: {
 			postId,
@@ -98,6 +100,7 @@ const SinglePost = () => {
 												name="comment"
 												value={comment}
 												onChange={e => setComment(e.target.value)}
+												ref={commentInputRef}
 											/>
 										</div>
 										<button
@@ -119,7 +122,7 @@ const SinglePost = () => {
 										<DeleteButton postId={id} commentId={comment.id} />
 									)}
 									<Card.Header>{comment.username}</Card.Header>
-									<Card.Meta>{timePassed(createdAt)}</Card.Meta>
+									<Card.Meta>{timePassed(comment.createdAt)}</Card.Meta>
 									<Card.Description>{comment.body}</Card.Description>
 								</Card.Content>
 							</Card>
