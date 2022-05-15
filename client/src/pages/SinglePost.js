@@ -1,7 +1,15 @@
 import React from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { gql, useQuery } from '@apollo/client';
-import { Card, Grid, Image, Button, Icon, Label } from 'semantic-ui-react';
+import { gql, useQuery, useMutation } from '@apollo/client';
+import {
+	Card,
+	Grid,
+	Image,
+	Button,
+	Icon,
+	Label,
+	Form,
+} from 'semantic-ui-react';
 
 import { AuthContext } from '../context/auth';
 import { timePassed } from '../utils/time-passed';
@@ -12,9 +20,21 @@ const SinglePost = () => {
 	const navigate = useNavigate();
 	const { postId } = useParams();
 	const { user } = React.useContext(AuthContext);
+	const [comment, setComment] = React.useState('');
+
 	const { loading, data } = useQuery(FETCH_POST_QUERY, {
 		variables: {
 			postId,
+		},
+	});
+
+	const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
+		update(proxy, result) {
+			setComment('');
+		},
+		variables: {
+			postId,
+			body: comment,
 		},
 	});
 
@@ -66,6 +86,32 @@ const SinglePost = () => {
 								)}
 							</Card.Content>
 						</Card>
+						{user && (
+							<Card fluid>
+								<Card.Content>
+									<p>Post a comment</p>
+									<Form>
+										<div className="ui action input fluid">
+											<input
+												type="text"
+												placeholder="Comment.."
+												name="comment"
+												value={comment}
+												onChange={e => setComment(e.target.value)}
+											/>
+										</div>
+										<button
+											type="submit"
+											className="ui button teal"
+											disabled={comment.trim() === ''}
+											onClick={submitComment}
+										>
+											Submit
+										</button>
+									</Form>
+								</Card.Content>
+							</Card>
+						)}
 						{comments.map(comment => (
 							<Card fluid key={comment.id}>
 								<Card.Content>
@@ -85,6 +131,20 @@ const SinglePost = () => {
 	}
 	return postMarkup;
 };
+
+const SUBMIT_COMMENT_MUTATION = gql`
+	mutation ($postId: ID!, $body: String!) {
+		createComment(postId: $postId, body: $body) {
+			id
+			comments {
+				id
+				body
+				createdAt
+				username
+			}
+		}
+	}
+`;
 
 const FETCH_POST_QUERY = gql`
 	query ($postId: ID!) {
