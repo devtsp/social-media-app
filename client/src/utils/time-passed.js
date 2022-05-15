@@ -7,7 +7,11 @@ export function timePassed(time) {
 	const hrs = Math.floor(diff / msInHrs);
 	const mn = Math.floor(diff / msInMn);
 	return hrs < 1
-		? `${mn} minutes ago`
+		? mn < 1
+			? `Less than a minute ago`
+			: mn === 1
+			? `1 minute ago`
+			: `${mn} minutes ago`
 		: hrs < 24
 		? `${hrs} hours ago`
 		: `${Math.floor(hrs / 24)} days ago`;
