@@ -11,6 +11,7 @@ const server = new ApolloServer({
 	typeDefs,
 	resolvers,
 	context: ({ req }) => ({ req }), // forward req from express to context,
+	cors: { origin: 'https://social-media-client-zeta.vercel.app' },
 });
 
 mongoose
